@@ -182,6 +182,91 @@
     .delta-status.tuu-better {
       color: #0c7a48;
     }
+    .custom-card {
+      background: linear-gradient(180deg, #fff7ed 0%, #ffffff 90%);
+      border-left: 5px solid #f97316;
+    }
+    .custom-tag {
+      background: #ffedd5;
+      color: #9a3412;
+    }
+    .custom-fields {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .custom-control {
+      background: #fff;
+      border: 1px solid #fed7aa;
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .custom-input-row {
+      display: grid;
+      grid-template-columns: minmax(90px, .8fr) minmax(120px, 1.2fr);
+      gap: 10px;
+      align-items: center;
+    }
+    .custom-gate {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto;
+      gap: 10px;
+      align-items: end;
+      background: #fff;
+      border: 1px solid #fed7aa;
+      border-radius: 12px;
+      margin-top: 14px;
+      padding: 12px;
+    }
+    .custom-unlock-button {
+      border: 0;
+      border-radius: 999px;
+      background: #f97316;
+      color: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 11px 18px;
+    }
+    .custom-lock-error {
+      color: #b42318;
+      font-size: 12px;
+      font-weight: 700;
+      grid-column: 1 / -1;
+      min-height: 16px;
+    }
+    .custom-control input[type="range"] {
+      padding: 0;
+      accent-color: #f97316;
+    }
+    .custom-result {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .custom-kpi {
+      background: #fff;
+      border: 1px solid #fed7aa;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .custom-kpi .t {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+    .custom-kpi .v {
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 800;
+    }
+    .custom-kpi.highlight {
+      background: #fff7ed;
+      border: 2px solid #f97316;
+    }
     .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; background: #ede9fe; color: #5b21b6; border-radius: 6px; padding: 3px 8px; margin-bottom: 8px; }
     .kpis {
       display: grid;
@@ -258,6 +343,10 @@
     .warn.ok {
       color: #0c7a48;
     }
+    .mcc-display {
+      background: #f8fbff;
+      cursor: default;
+    }
     .footer {
       font-size: 12px;
       color: var(--muted);
@@ -269,6 +358,9 @@
       .kpis { grid-template-columns: 1fr 1fr; }
       .bench-fields { grid-template-columns: 1fr; }
       .bench-result { grid-template-columns: 1fr 1fr; }
+      .custom-gate { grid-template-columns: 1fr; }
+      .custom-fields { grid-template-columns: 1fr; }
+      .custom-result { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -293,20 +385,23 @@
             <input id="ticketPromedio" type="number" value="47200" />
           </div>
           <div>
-            <label for="sii">SII</label>
-            <input id="sii" type="number" value="107300" />
+            <label for="sii">SII (código o actividad)</label>
+            <input id="sii" type="text" list="siiOptions" value="107300 | ELABORACIÓN DE CACAO, CHOCOLATE Y DE PRODUCTOS DE CONFITERÍA" placeholder="Escribe código o actividad SII" autocomplete="off" />
+            <datalist id="siiOptions"></datalist>
+            <div id="siiLoadWarn" class="warn" style="display:none"></div>
           </div>
           <div>
-            <label for="mcc">MCC*</label>
-            <input id="mcc" type="number" value="5441" />
+            <label for="mccDisplay">MCC | Categoría</label>
+            <input id="mcc" type="hidden" value="7399" />
+            <input id="mccDisplay" class="mcc-display" type="text" value="7399 | SERVICIOS COMERCIALES (NO CLASIFICADOS EN OTRA PARTE)" readonly />
             <div id="mccWarn" class="warn" style="display:none"></div>
           </div>
           <div>
-            <label for="txDebito">Transacciones Debito (monto mensual CLP)</label>
+            <label for="txDebito">Transacciones Débito (monto mensual CLP)</label>
             <input id="txDebito" type="number" value="5334000000" />
           </div>
           <div>
-            <label for="txCredito">Transacciones Credito (monto mensual CLP)</label>
+            <label for="txCredito">Transacciones Crédito (monto mensual CLP)</label>
             <input id="txCredito" type="number" value="666000000" />
           </div>
         </div>
@@ -413,6 +508,72 @@
       </div>
     </section>
 
+    <section class="card custom-card">
+      <div class="section-tag custom-tag">Personalizado</div>
+      <h2 style="margin-bottom:4px">Comisión Personalizada</h2>
+      <p class="sub" style="margin-bottom:12px">Prueba comisiones propias de TUU ajustando porcentajes y cargos fijos. Las perillas permiten mover los valores rápidamente mientras ves el impacto en comisión y margen.</p>
+      <div id="customGate" class="custom-gate">
+        <div>
+          <label for="customPassword">Clave de acceso</label>
+          <input id="customPassword" type="password" placeholder="Ingresa la clave" />
+        </div>
+        <button id="customUnlockBtn" class="custom-unlock-button" type="button">Desbloquear</button>
+        <div id="customLockError" class="custom-lock-error"></div>
+      </div>
+      <div id="customContent" style="display:none">
+      <div class="custom-fields">
+        <div class="custom-control">
+          <label for="customPDeb">% Débito</label>
+          <div class="custom-input-row">
+            <input id="customPDeb" type="number" min="0" max="2" step="0.01" placeholder="Ej: 1.40" />
+            <input id="customPDebRange" type="range" min="0" max="2" step="0.01" value="0" aria-label="Perilla % débito" />
+          </div>
+        </div>
+        <div class="custom-control">
+          <label for="customFDeb">Fijo Débito (CLP)</label>
+          <div class="custom-input-row">
+            <input id="customFDeb" type="number" min="0" max="200" step="1" placeholder="Ej: 65" />
+            <input id="customFDebRange" type="range" min="0" max="200" step="1" value="0" aria-label="Perilla fijo débito" />
+          </div>
+        </div>
+        <div class="custom-control">
+          <label for="customPCre">% Crédito</label>
+          <div class="custom-input-row">
+            <input id="customPCre" type="number" min="0" max="2" step="0.01" placeholder="Ej: 1.40" />
+            <input id="customPCreRange" type="range" min="0" max="2" step="0.01" value="0" aria-label="Perilla % crédito" />
+          </div>
+        </div>
+        <div class="custom-control">
+          <label for="customFCre">Fijo Crédito (CLP)</label>
+          <div class="custom-input-row">
+            <input id="customFCre" type="number" min="0" max="200" step="1" placeholder="Ej: 65" />
+            <input id="customFCreRange" type="range" min="0" max="200" step="1" value="0" aria-label="Perilla fijo crédito" />
+          </div>
+        </div>
+      </div>
+      <div class="custom-result">
+        <div class="custom-kpi">
+          <div class="t">Comisión débito mensual</div>
+          <div class="v" id="customIngDeb">—</div>
+        </div>
+        <div class="custom-kpi">
+          <div class="t">Comisión crédito mensual</div>
+          <div class="v" id="customIngCre">—</div>
+        </div>
+        <div class="custom-kpi highlight">
+          <div class="t">Comisión mensual total</div>
+          <div class="v" id="customIngTotal">—</div>
+        </div>
+        <div class="custom-kpi">
+          <div class="t">Margen mensual</div>
+          <div class="v" id="customMargen">—</div>
+          <div class="t" style="margin-top:6px">Margen (%)</div>
+          <div class="v" id="customMargenPct">—</div>
+        </div>
+      </div>
+      </div>
+    </section>
+
     <section class="card details-toggle-card">
       <button id="toggleInternalDetails" class="details-toggle" type="button" onclick="toggleInternalDetails()">Mostrar detalle interno</button>
     </section>
@@ -422,8 +583,8 @@
         <h2>Output</h2>
         <table class="mini-table">
           <tbody>
-            <tr><td>Costo Debito</td><td id="costoDebitoOut">-</td></tr>
-            <tr><td>Costo Credito</td><td id="costoCreditoOut">-</td></tr>
+            <tr><td>Costo Débito</td><td id="costoDebitoOut">-</td></tr>
+            <tr><td>Costo Crédito</td><td id="costoCreditoOut">-</td></tr>
             <tr><td>Costo Total</td><td id="costoTotalOut">-</td></tr>
           </tbody>
         </table>
@@ -469,17 +630,14 @@
     const BASE_COST_CRED = 0.01140001;
     const MCC_TI_MAP = {"9399":{"cred":0.0114076,"deb":0.00496902},"7995":{"cred":0.01140087,"deb":0.00497421},"7699":{"cred":0.01139937,"deb":0.00499663},"4789":{"cred":0.0114001,"deb":0.00498723},"5946":{"cred":0.01140087,"deb":0.00497421},"7549":{"cred":0.01139904,"deb":0.00499509},"7333":{"cred":0.01139995,"deb":0.00499072},"2741":{"cred":0.01118881,"deb":0.00499581},"8050":{"cred":0.01140018,"deb":0.00499577},"5945":{"cred":0.01139998,"deb":0.00499605},"5950":{"cred":0.01140002,"deb":0.00499423},"7997":{"cred":0.01140049,"deb":0.0049983},"5998":{"cred":0.01140044,"deb":0.00499417},"4722":{"cred":0.01139896,"deb":0.00499968},"5571":{"cred":0.01140011,"deb":0.00499378},"4131":{"cred":0.010424,"deb":0.00499986},"5681":{"cred":0.01139889,"deb":0.00499649},"5697":{"cred":0.0114002,"deb":0.00499474},"5976":{"cred":0.01140058,"deb":0.00499681},"5992":{"cred":0.01139998,"deb":0.00499875},"5533":{"cred":0.01139997,"deb":0.00499852},"5200":{"cred":0.01140083,"deb":0.00499946},"5941":{"cred":0.01140003,"deb":0.00499775},"4121":{"cred":0.0114003,"deb":0.00499617},"7394":{"cred":0.01140008,"deb":0.00499837},"8099":{"cred":0.01140001,"deb":0.00499936},"5940":{"cred":0.01140017,"deb":0.00499831},"8071":{"cred":0.01139994,"deb":0.00499959},"5948":{"cred":0.01140008,"deb":0.00499876},"5932":{"cred":0.01140026,"deb":0.00499972},"5261":{"cred":0.01140006,"deb":0.00499888},"7349":{"cred":0.0113998,"deb":0.00499907},"5712":{"cred":0.01139997,"deb":0.00499866},"4411":{"cred":0.01140001,"deb":0.00500752},"5047":{"cred":0.01139951,"deb":0.005},"7911":{"cred":0.01140006,"deb":0.00499902},"4215":{"cred":0.0114002,"deb":0.00499944},"8299":{"cred":0.00600814,"deb":0.00449996},"5733":{"cred":0.01140025,"deb":0.00499781},"8641":{"cred":0.01139994,"deb":0.00499985},"8021":{"cred":0.01140005,"deb":0.0049998},"7033":{"cred":0.0114076,"deb":0.00496902},"5511":{"cred":0.01137536,"deb":0.00499992},"7342":{"cred":0.01140087,"deb":0.00497421},"8249":{"cred":0.00995315,"deb":0.00499996},"1731":{"cred":0.01139998,"deb":0.00499832},"7261":{"cred":0.01139977,"deb":0.00499994},"8351":{"cred":0.0095576,"deb":0.00471902},"5441":{"cred":0.01140001,"deb":0.00498882},"5085":{"cred":0.01094854,"deb":0.00499599},"5970":{"cred":0.01139986,"deb":0.00499369},"8911":{"cred":0.0114076,"deb":0.00496902},"5994":{"cred":0.01140087,"deb":0.00497421},"5211":{"cred":0.01140006,"deb":0.00499971},"7523":{"cred":0.0114008,"deb":0.004979},"7832":{"cred":0.01139908,"deb":0.00498874},"1799":{"cred":0.01140019,"deb":0.00499354},"5811":{"cred":0.01139985,"deb":0.00498503},"4816":{"cred":0.01140439,"deb":0.00494458},"5942":{"cred":0.01139989,"deb":0.00498561},"5309":{"cred":0.0113998,"deb":0.00499513},"7538":{"cred":0.01139998,"deb":0.0049986},"5462":{"cred":0.01140022,"deb":0.00498469},"8111":{"cred":0.01140047,"deb":0.00499858},"5411":{"cred":0.0114002,"deb":0.00498821},"5045":{"cred":0.01140003,"deb":0.00499794},"7996":{"cred":0.01140118,"deb":0.00498651},"5311":{"cred":0.0114002,"deb":0.00499351},"5499":{"cred":0.01140032,"deb":0.00499145},"7210":{"cred":0.0114009,"deb":0.00499692},"5713":{"cred":0.01140008,"deb":0.00499792},"6513":{"cred":0.01140048,"deb":0.00499756},"7941":{"cred":0.0114001,"deb":0.00499514},"5921":{"cred":0.01140126,"deb":0.00498664},"1711":{"cred":0.0114076,"deb":0.00496902},"5931":{"cred":0.0114076,"deb":0.00496902},"5949":{"cred":0.0114076,"deb":0.00496902},"7361":{"cred":0.0114076,"deb":0.00496902},"7932":{"cred":0.0114076,"deb":0.00496902},"5962":{"cred":0.0114076,"deb":0.00496902},"5542":{"cred":0.0100826,"deb":0.00484402},"5231":{"cred":0.0114076,"deb":0.00496902},"5044":{"cred":0.0114076,"deb":0.00496902},"4112":{"cred":0.0104326,"deb":0.00496902},"5399":{"cred":0.01139995,"deb":0.0049959},"4899":{"cred":0.0063826,"deb":0.00314402},"7622":{"cred":0.01139969,"deb":0.00499987},"5714":{"cred":0.01139991,"deb":0.00499325},"7338":{"cred":0.01139645,"deb":0.00497832},"7999":{"cred":0.01140029,"deb":0.00499358},"5814":{"cred":0.01140014,"deb":0.00499509},"7299":{"cred":0.01140019,"deb":0.00499434},"7011":{"cred":0.01139992,"deb":0.00499892},"8931":{"cred":0.01140665,"deb":0.00499138},"5532":{"cred":0.01140005,"deb":0.00499917},"5732":{"cred":0.01140005,"deb":0.00499625},"5995":{"cred":0.01139999,"deb":0.00499511},"8398":{"cred":0.00602682,"deb":0.00449382},"7230":{"cred":0.01140013,"deb":0.00499861},"5422":{"cred":0.01140002,"deb":0.00499793},"5912":{"cred":0.01139964,"deb":0.00499376},"5719":{"cred":0.0114004,"deb":0.00499683},"7393":{"cred":0.01139984,"deb":0.00499364},"5651":{"cred":0.01140002,"deb":0.00499747},"5661":{"cred":0.01140019,"deb":0.00499936},"8999":{"cred":0.01139999,"deb":0.00499806},"5977":{"cred":0.01140008,"deb":0.0049968},"4214":{"cred":0.01140029,"deb":0.00499564},"7012":{"cred":0.01139997,"deb":0.00499691},"5813":{"cred":0.01139992,"deb":0.00499872},"1520":{"cred":0.01140007,"deb":0.00499835},"5735":{"cred":0.01140009,"deb":0.00499975},"5944":{"cred":0.01140002,"deb":0.0049967},"742":{"cred":0.01139999,"deb":0.00499928},"4900":{"cred":0.00135022,"deb":0.00134995},"8043":{"cred":0.01140017,"deb":0.00499974},"4814":{"cred":0.00134982,"deb":0.00134997},"8062":{"cred":0.01140001,"deb":0.00499972},"4119":{"cred":0.01139989,"deb":0.0049999}};
     const BASE_TI = MCC_TI_MAP["5441"];
-    const SII_TO_MCC_MAP = {
-      "107300": "5441",
-      "463014": "5441",
-      "463019": "5499",
-      "463020": "5921",
-      "471100": "5411",
-      "472109": "5499",
-      "472200": "5921",
-      "478100": "5499",
-      "563001": "5813"
+    const DEFAULT_SII_OPTION = {
+      codigo_sii: "107300",
+      actividad_sii: "ELABORACIÓN DE CACAO, CHOCOLATE Y DE PRODUCTOS DE CONFITERÍA",
+      mcc: "7399",
+      categoria: "SERVICIOS COMERCIALES (NO CLASIFICADOS EN OTRA PARTE)"
     };
+    let SII_DATA = [DEFAULT_SII_OPTION];
+    let SII_BY_CODE = { [DEFAULT_SII_OPTION.codigo_sii]: DEFAULT_SII_OPTION };
 
     function getMastercardFixedCmClp(ticketClp) {
       const ticketUsd = ticketClp / 990;
@@ -561,9 +719,117 @@
       ids.forEach(id => byId(id).textContent = value);
     }
 
+    function parseCsvLine(line) {
+      const values = [];
+      let current = "";
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        const next = line[i + 1];
+        if (char === '"' && inQuotes && next === '"') {
+          current += '"';
+          i++;
+        } else if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === "," && !inQuotes) {
+          values.push(current);
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+      values.push(current);
+      return values;
+    }
+
+    function parseSiiCsv(text) {
+      return text
+        .trim()
+        .split(/\r?\n/)
+        .slice(1)
+        .map(parseCsvLine)
+        .filter(row => row.length >= 4 && row[0])
+        .map(([codigo_sii, actividad_sii, mcc, categoria]) => ({
+          codigo_sii: String(codigo_sii).trim(),
+          actividad_sii: String(actividad_sii).trim(),
+          mcc: String(mcc).trim(),
+          categoria: String(categoria).trim()
+        }));
+    }
+
+    function formatSiiOption(item) {
+      return `${item.codigo_sii} | ${item.actividad_sii}`;
+    }
+
+    function formatMccOption(item) {
+      return item ? `${item.mcc} | ${item.categoria}` : "";
+    }
+
+    function parseSiiCode(value) {
+      const match = String(value || "").match(/\d+/);
+      return match ? match[0] : "";
+    }
+
+    function getSelectedSii() {
+      return SII_BY_CODE[parseSiiCode(byId("sii").value)] || null;
+    }
+
+    function populateSiiOptions(rows) {
+      const datalist = byId("siiOptions");
+      datalist.innerHTML = "";
+      rows.forEach(item => {
+        const option = document.createElement("option");
+        option.value = formatSiiOption(item);
+        option.label = `MCC ${item.mcc} | ${item.categoria}`;
+        datalist.appendChild(option);
+      });
+    }
+
+    function setSiiRows(rows) {
+      SII_DATA = rows.length ? rows : [DEFAULT_SII_OPTION];
+      SII_BY_CODE = SII_DATA.reduce((acc, item) => {
+        acc[item.codigo_sii] = item;
+        return acc;
+      }, {});
+      populateSiiOptions(SII_DATA);
+      updateSiiSelection({ normalize: true, clearResults: false });
+    }
+
+    function updateSiiSelection({ normalize = false, clearResults = true } = {}) {
+      const item = getSelectedSii();
+      if (item) {
+        byId("mcc").value = item.mcc;
+        byId("mccDisplay").value = formatMccOption(item);
+        if (normalize) byId("sii").value = formatSiiOption(item);
+      } else {
+        byId("mcc").value = "";
+        byId("mccDisplay").value = "";
+      }
+
+      if (clearResults) resetCalculatedInputs();
+    }
+
+    async function loadSiiTariff() {
+      try {
+        const response = await fetch("getnet_tarifario_sii.csv", { cache: "no-store" });
+        if (!response.ok) throw new Error("CSV no disponible");
+        const rows = parseSiiCsv(await response.text());
+        setSiiRows(rows);
+      } catch (error) {
+        setSiiRows([DEFAULT_SII_OPTION]);
+        const warn = byId("siiLoadWarn");
+        warn.style.display = "block";
+        warn.textContent = "No se pudo cargar getnet_tarifario_sii.csv.";
+      }
+    }
+
     function clearBenchOutputs() {
       setText(["benchIngDeb","benchIngCre","benchIngTotal","benchMargen","benchMargenPct","benchDelta"]);
       byId("benchNombreOut").textContent = String(byId("benchNombre").value || "").trim() || "Competencia";
+    }
+
+    function clearCustomOutputs() {
+      setText(["customIngDeb","customIngCre","customIngTotal","customMargen","customMargenPct"], "—");
     }
 
     function toggleCalculatedSections(show) {
@@ -591,12 +857,21 @@
       _hasCalculated = false;
       toggleCalculatedSections(false);
       clearBenchOutputs();
+      clearCustomOutputs();
     }
 
     function updateTotalTx() {
       const montoDeb = Number(byId("txDebito").value) || 0;
       const montoCre = Number(byId("txCredito").value) || 0;
       byId("totalTx").value = Math.round(montoDeb + montoCre);
+    }
+
+    function resetCalculatedInputs() {
+      updateTotalTx();
+      byId("mccWarn").style.display = "none";
+      byId("mccWarn").classList.remove("ok");
+      byId("mccWarn").textContent = "";
+      clearCalculatedOutputs();
     }
 
     function toggleInternalDetails() {
@@ -606,13 +881,27 @@
       byId("toggleInternalDetails").textContent = isHidden ? "Ocultar detalle interno" : "Mostrar detalle interno";
     }
 
+    function unlockCustomSection() {
+      const password = String(byId("customPassword").value || "").trim();
+      const errorEl = byId("customLockError");
+      if (password !== "Revenue") {
+        errorEl.textContent = "Clave incorrecta.";
+        return;
+      }
+
+      errorEl.textContent = "";
+      byId("customGate").style.display = "none";
+      byId("customContent").style.display = "block";
+      recalcCustom();
+    }
+
     function recalc() {
       const ticket = Number(byId("ticketPromedio").value) || 0;
       const mccRaw = String(byId("mcc").value || "").trim();
       const mcc = Number(mccRaw) || 0;
       const montoDeb = Number(byId("txDebito").value) || 0;
       const montoCre = Number(byId("txCredito").value) || 0;
-      const sii = Number(byId("sii").value) || 0;
+      const selectedSii = getSelectedSii();
       const totalMonto = montoDeb + montoCre;
       byId("totalTx").value = Math.round(totalMonto);
 
@@ -630,8 +919,8 @@
       byId("qCredito").textContent = fmtMoney(qCre);
 
       // Costos base ajustados por MCC exacto desde tabla TI v2.
-      // Si MCC viene vacio, se intenta inferir por SII. Si no existe en tabla TI v2, no se calculan resultados.
-      const inferredMcc = Number(SII_TO_MCC_MAP[String(sii)] || 0);
+      // El MCC ahora se deriva desde la actividad SII seleccionada.
+      const inferredMcc = selectedSii ? Number(selectedSii.mcc) : 0;
       const effectiveMcc = mccRaw !== "" ? mcc : inferredMcc;
       const mccKey = String(parseInt(effectiveMcc, 10) || "");
       const hasExactMcc = !!MCC_TI_MAP[mccKey];
@@ -639,7 +928,9 @@
       if (!hasExactMcc) {
         warnEl.style.display = "block";
         warnEl.classList.remove("ok");
-        warnEl.textContent = "MCC no encontrado en Tasa Intercambio v2. Ingresa un MCC valido para calcular.";
+        warnEl.textContent = mccKey
+          ? `MCC ${mccKey} no encontrado en Tasa Intercambio v2. Selecciona otra actividad SII para calcular.`
+          : "Selecciona una actividad SII valida para calcular.";
         clearCalculatedOutputs();
         return;
       }
@@ -736,7 +1027,8 @@
       byId("costosComisionOut").textContent = `$${fmtMoney(costoBase)}`;
       byId("margenOut").textContent = `$${fmtMoney(margenOut)}`;
       byId("margenPctOut").textContent = fmtPct(margenPctOut);
-      const mccMsg = `MCC aplicado: ${effectiveMcc || "-"}`;
+      const mccLabel = selectedSii ? `${mccKey} | ${selectedSii.categoria}` : (effectiveMcc || "-");
+      const mccMsg = `MCC aplicado: ${mccLabel}`;
       byId("mejorModelo").title = mccMsg;
       byId("mccInfo").textContent = mccMsg;
 
@@ -745,6 +1037,7 @@
       _costoBaseActual = costoBase;
       _hasCalculated = true;
       recalcBench();
+      recalcCustom();
     }
 
     // --- Benchmark ---
@@ -808,20 +1101,90 @@
       }
     }
 
-    ["ticketPromedio", "sii", "mcc", "txDebito", "txCredito"]
-      .forEach(id => byId(id).addEventListener("input", () => {
-        updateTotalTx();
-        byId("mccWarn").style.display = "none";
-        byId("mccWarn").classList.remove("ok");
-        byId("mccWarn").textContent = "";
-        clearCalculatedOutputs();
-      }));
+    function recalcCustom() {
+      if (!_hasCalculated) {
+        clearCustomOutputs();
+        return;
+      }
+
+      const montoDeb = Number(byId("txDebito").value) || 0;
+      const montoCre = Number(byId("txCredito").value) || 0;
+      const ticket = Number(byId("ticketPromedio").value) || 0;
+      const totalMonto = montoDeb + montoCre;
+      const qTotal = ticket > 0 ? totalMonto / ticket : 0;
+      const pDeb = totalMonto > 0 ? montoDeb / totalMonto : 0;
+      const pCre = totalMonto > 0 ? montoCre / totalMonto : 0;
+
+      const pDebRaw = parseFloat(byId("customPDeb").value);
+      const fDebRaw = parseFloat(byId("customFDeb").value);
+      const pCreRaw = parseFloat(byId("customPCre").value);
+      const fCreRaw = parseFloat(byId("customFCre").value);
+      const hasInputs = !isNaN(pDebRaw) || !isNaN(fDebRaw) || !isNaN(pCreRaw) || !isNaN(fCreRaw);
+
+      if (!hasInputs) {
+        clearCustomOutputs();
+        return;
+      }
+
+      const pDebVal = isNaN(pDebRaw) ? 0 : pDebRaw / 100;
+      const fDebVal = isNaN(fDebRaw) ? 0 : fDebRaw;
+      const pCreVal = isNaN(pCreRaw) ? 0 : pCreRaw / 100;
+      const fCreVal = isNaN(fCreRaw) ? 0 : fCreRaw;
+
+      const ingDeb = (pDebVal * montoDeb) + (fDebVal * qTotal * pDeb);
+      const ingCre = (pCreVal * montoCre) + (fCreVal * qTotal * pCre);
+      const ingTotal = ingDeb + ingCre;
+      const margen = ingTotal - _costoBaseActual;
+      const margenPct = totalMonto > 0 ? margen / totalMonto : 0;
+
+      byId("customIngDeb").textContent = "$" + fmtMoney(ingDeb);
+      byId("customIngCre").textContent = "$" + fmtMoney(ingCre);
+      byId("customIngTotal").textContent = "$" + fmtMoney(ingTotal);
+      byId("customMargen").textContent = "$" + fmtMoney(margen);
+      byId("customMargenPct").textContent = fmtPct(margenPct);
+    }
+
+    function bindCustomControl(inputId, rangeId) {
+      const input = byId(inputId);
+      const range = byId(rangeId);
+      input.addEventListener("input", () => {
+        const value = parseFloat(input.value);
+        if (!isNaN(value)) range.value = Math.min(Number(range.max), Math.max(Number(range.min), value));
+        recalcCustom();
+      });
+      range.addEventListener("input", () => {
+        input.value = range.value;
+        recalcCustom();
+      });
+    }
+
+    ["ticketPromedio", "txDebito", "txCredito"]
+      .forEach(id => byId(id).addEventListener("input", resetCalculatedInputs));
+
+    byId("sii").addEventListener("input", () => {
+      updateSiiSelection({ normalize: false });
+    });
+    byId("sii").addEventListener("change", () => {
+      updateSiiSelection({ normalize: true });
+    });
 
     byId("calcularBtn").addEventListener("click", recalc);
 
     ["benchPDeb","benchFDeb","benchPCre","benchFCre","benchArriendo","benchNombre"]
       .forEach(id => byId(id).addEventListener("input", recalcBench));
 
+    bindCustomControl("customPDeb", "customPDebRange");
+    bindCustomControl("customFDeb", "customFDebRange");
+    bindCustomControl("customPCre", "customPCreRange");
+    bindCustomControl("customFCre", "customFCreRange");
+    byId("customUnlockBtn").addEventListener("click", unlockCustomSection);
+    byId("customPassword").addEventListener("keydown", event => {
+      if (event.key === "Enter") unlockCustomSection();
+    });
+
+    populateSiiOptions(SII_DATA);
+    updateSiiSelection({ normalize: false, clearResults: false });
+    loadSiiTariff();
     updateTotalTx();
     clearCalculatedOutputs();
   </script>
