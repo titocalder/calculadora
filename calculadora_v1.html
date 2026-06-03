@@ -79,22 +79,110 @@
     input {
       width: 100%;
       background: #fff;
-      color: var(--text);
+      color: #0a3d91 !important;
+      -webkit-text-fill-color: #0a3d91 !important;
       border: 1px solid #cdd9ff;
       border-radius: 10px;
       padding: 10px 12px;
       font-size: 14px;
+      font-weight: 600;
       outline: none;
+    }
+    .step1-card .fields input {
+      color: #0a3d91 !important;
+      -webkit-text-fill-color: #0a3d91 !important;
+    }
+    input::placeholder {
+      color: #5f6c89;
+      -webkit-text-fill-color: #5f6c89;
     }
     input:focus {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(36, 87, 255, 0.12);
+    }
+    .actions {
+      margin-top: 14px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .calc-button {
+      border: 0;
+      border-radius: 999px;
+      background: var(--tuu-blue);
+      color: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 11px 22px;
+      box-shadow: 0 10px 18px rgba(36, 87, 255, 0.22);
+    }
+    .calc-button:hover {
+      filter: brightness(1.04);
+    }
+    .details-toggle-card {
+      display: flex;
+      justify-content: flex-end;
+      padding: 12px 16px;
+    }
+    .details-toggle {
+      border: 1px solid #b8c8ff;
+      border-radius: 999px;
+      background: #fff;
+      color: #2457ff;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 9px 16px;
     }
     .step1-card { background: linear-gradient(180deg, #eef3ff 0%, #ffffff 90%); }
     .step2-card { background: linear-gradient(180deg, #ebfff6 0%, #ffffff 90%); }
     .step3-card { background: linear-gradient(180deg, #fff8e8 0%, #ffffff 90%); }
     .outputs-card { background: linear-gradient(180deg, #f4f1ff 0%, #ffffff 90%); }
     .margin-card { background: linear-gradient(180deg, #ffeef1 0%, #ffffff 90%); }
+    .bench-card { background: linear-gradient(180deg, #f5f0ff 0%, #ffffff 90%); border-left: 5px solid #7c3aed; }
+    .bench-fields { display: grid; grid-template-columns: 2fr repeat(5, 1fr); gap: 10px 12px; align-items: end; }
+    .bench-result { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+    .bench-kpi { background: #fff; border: 1px solid #ddd6fe; border-radius: 10px; padding: 8px 10px; }
+    .bench-kpi .t { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
+    .bench-kpi .v { font-weight: 700; font-size: 14px; color: var(--text); }
+    .bench-kpi.highlight {
+      background: linear-gradient(180deg, #efe7ff 0%, #ffffff 100%);
+      border: 2px solid #7c3aed;
+      box-shadow: 0 10px 22px rgba(124, 58, 237, 0.14);
+      grid-row: span 2;
+      padding: 14px;
+    }
+    .bench-kpi.highlight .t {
+      color: #4c1d95;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .bench-kpi.highlight .v {
+      color: var(--text);
+      font-size: 22px;
+      font-weight: 800;
+      margin-top: 8px;
+    }
+    .delta-comparison {
+      display: block;
+      line-height: 1.35;
+    }
+    .delta-amount {
+      color: var(--text);
+      font-weight: 800;
+    }
+    .delta-status {
+      font-weight: 800;
+    }
+    .delta-status.competition-better {
+      color: #b42318;
+    }
+    .delta-status.tuu-better {
+      color: #0c7a48;
+    }
+    .section-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; background: #ede9fe; color: #5b21b6; border-radius: 6px; padding: 3px 8px; margin-bottom: 8px; }
     .kpis {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -105,6 +193,9 @@
       border: 1px solid #d5e0ff;
       border-radius: 10px;
       padding: 10px;
+    }
+    .kpi.total-kpi {
+      grid-column: 1 / -1;
     }
     .kpi .t { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
     .kpi .v { font-weight: 700; font-size: 16px; }
@@ -136,6 +227,20 @@
       border-radius: 999px;
       padding: 4px 10px;
       display: inline-block;
+      max-width: 100%;
+      white-space: normal;
+    }
+    .best.no-recommendation {
+      color: #b42318;
+      background: #fff4e8;
+      border-color: #ffd1a6;
+      border-radius: 10px;
+    }
+    .criteria-note {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.35;
+      margin: 6px 0 0;
     }
     .mini-table td {
       padding: 8px 6px;
@@ -150,6 +255,9 @@
       color: #b42318;
       font-weight: 600;
     }
+    .warn.ok {
+      color: #0c7a48;
+    }
     .footer {
       font-size: 12px;
       color: var(--muted);
@@ -159,6 +267,8 @@
       .grid-2 { grid-template-columns: 1fr; }
       .fields { grid-template-columns: 1fr; }
       .kpis { grid-template-columns: 1fr 1fr; }
+      .bench-fields { grid-template-columns: 1fr; }
+      .bench-result { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -167,7 +277,7 @@
     <div class="card header-card">
       <div class="brand-row">
         <img class="brand-logo" src="https://www.tuu.cl/favicon.ico" alt="TUU" />
-        <span class="brand-chip">Estilo visual inspirado en TUU</span>
+        <span class="brand-chip">Calculadora de comisiones TUU para clientes de gran tamaño, uso exclusivo interno</span>
       </div>
       <h1>Calculadora</h1>
       <p class="sub">Inputs base + evaluación de modelos comisionales A/B/C/D.</p>
@@ -175,7 +285,8 @@
 
     <div class="grid-2">
       <section class="card step1-card">
-        <h2>PASO 1: Inputs</h2>
+        <h2>PASO 1: Agregar información del cliente</h2>
+        <p class="sub" style="margin:-6px 0 12px">Cuando estes listo aprieta el boton "Calcular".</p>
         <div class="fields">
           <div>
             <label for="ticketPromedio">Ticket Promedio (CLP)</label>
@@ -198,28 +309,32 @@
             <label for="txCredito">Transacciones Credito (monto mensual CLP)</label>
             <input id="txCredito" type="number" value="666000000" />
           </div>
-          <div>
-            <label for="totalTx">Total transacciones (auto: débito + crédito)</label>
-            <input id="totalTx" type="number" value="6000000000" readonly />
-          </div>
+        </div>
+        <div class="actions">
+          <button id="calcularBtn" class="calc-button" type="button" onclick="recalc()">Calcular</button>
         </div>
       </section>
 
       <section class="card step2-card">
-        <h2>PASO 2: Derivados automáticos</h2>
-        <div class="kpis">
+        <h2>PASO 2: Resumen Cliente</h2>
+        <div class="kpis" id="step2Content">
+          <div class="kpi total-kpi">
+            <label for="totalTx">Total transacciones (auto: débito + crédito)</label>
+            <input id="totalTx" type="number" value="6000000000" readonly />
+          </div>
           <div class="kpi"><div class="t">%Monto Débito</div><div class="v" id="pDebito">-</div></div>
           <div class="kpi"><div class="t">%Monto Crédito</div><div class="v" id="pCredito">-</div></div>
           <div class="kpi"><div class="t">Cantidad total de tx</div><div class="v" id="qTotal">-</div></div>
           <div class="kpi"><div class="t">Cantidad tx débito</div><div class="v" id="qDebito">-</div></div>
           <div class="kpi"><div class="t">Cantidad tx crédito</div><div class="v" id="qCredito">-</div></div>
-          <div class="kpi"><div class="t">Costo base referencia</div><div class="v" id="costoBase">-</div></div>
+          <div class="kpi"><div class="t">Costo base para TUU (uso interno)</div><div class="v" id="costoBase">-</div></div>
         </div>
       </section>
     </div>
 
     <section class="card step3-card">
       <h2>PASO 3: Modelos comisionales</h2>
+      <p class="sub" style="margin:-6px 0 12px">En esta sección se muestran los distintos modelos comisionales que tenemos disponibles para este cliente y abajo nuestra recomendación del modelo que le conviene más al cliente final.</p>
       <table id="tablaModelos">
         <thead>
           <tr>
@@ -235,11 +350,74 @@
         </thead>
         <tbody></tbody>
       </table>
-      <p style="margin-top:10px"><strong>Mejor modelo:</strong> <span class="best" id="mejorModelo">-</span></p>
+      <p id="mejorModeloLine" style="margin-top:10px"><strong>Recomendación:</strong> <span class="best" id="mejorModelo">-</span></p>
+      <p class="criteria-note" id="criterioSeleccion">Criterio de selección: se consideran solo modelos con margen mensual mayor a $30.000 y margen mayor a 0,40%; entre esos, se recomienda el de menor ingreso mensual para el comercio.</p>
       <p class="sub" id="mccInfo" style="margin-top:6px">MCC aplicado: -</p>
     </section>
 
-    <div class="grid-2">
+    <section class="card bench-card">
+      <div class="section-tag">Benchmark</div>
+      <h2 style="margin-bottom:4px">Comparativo competencia</h2>
+      <p class="sub" style="margin-bottom:12px">Ingresa la comisión de un competidor o alternativa para comparar el ingreso cobrado al comercio.</p>
+      <div class="bench-fields">
+        <div>
+          <label for="benchNombre">Alternativa / Competencia</label>
+          <input id="benchNombre" type="text" placeholder="Ej: Transbank, Getnet…" />
+        </div>
+        <div>
+          <label for="benchPDeb">% Débito</label>
+          <input id="benchPDeb" type="number" step="0.01" placeholder="Ej: 0.95" />
+        </div>
+        <div>
+          <label for="benchFDeb">Fijo Débito (CLP)</label>
+          <input id="benchFDeb" type="number" placeholder="Ej: 65" />
+        </div>
+        <div>
+          <label for="benchPCre">% Crédito</label>
+          <input id="benchPCre" type="number" step="0.01" placeholder="Ej: 1.32" />
+        </div>
+        <div>
+          <label for="benchFCre">Fijo Crédito (CLP)</label>
+          <input id="benchFCre" type="number" placeholder="Ej: 65" />
+        </div>
+        <div>
+          <label for="benchArriendo">Arriendo Mensual Total POS</label>
+          <input id="benchArriendo" type="number" placeholder="Ej: 30000" />
+        </div>
+      </div>
+      <div class="bench-result">
+        <div class="bench-kpi">
+          <div class="t">Comisión débito</div>
+          <div class="v" id="benchIngDeb">—</div>
+        </div>
+        <div class="bench-kpi">
+          <div class="t">Comisión crédito</div>
+          <div class="v" id="benchIngCre">—</div>
+        </div>
+        <div class="bench-kpi highlight">
+          <div class="t">Total cobrado al comercio (<span id="benchNombreOut">Competencia</span>)</div>
+          <div class="v" id="benchIngTotal">—</div>
+        </div>
+        <div class="bench-kpi" style="display:none">
+          <div class="t">Margen estimado (vs costo base)</div>
+          <div class="v" id="benchMargen">—</div>
+        </div>
+        <div class="bench-kpi" style="display:none">
+          <div class="t">Margen (%)</div>
+          <div class="v" id="benchMargenPct">—</div>
+        </div>
+        <div class="bench-kpi">
+          <div class="t">vs. Mejor modelo TUU</div>
+          <div class="v" id="benchDelta">—</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card details-toggle-card">
+      <button id="toggleInternalDetails" class="details-toggle" type="button" onclick="toggleInternalDetails()">Mostrar detalle interno</button>
+    </section>
+
+    <div id="internalDetails" class="grid-2" style="display:none">
       <section class="card outputs-card">
         <h2>Output</h2>
         <table class="mini-table">
@@ -374,6 +552,60 @@
       return { debPct, credPct, source };
     }
 
+    // --- Estado de calculos ---
+    let _bestIngresoTUU = 0;
+    let _costoBaseActual = 0;
+    let _hasCalculated = false;
+
+    function setText(ids, value = "") {
+      ids.forEach(id => byId(id).textContent = value);
+    }
+
+    function clearBenchOutputs() {
+      setText(["benchIngDeb","benchIngCre","benchIngTotal","benchMargen","benchMargenPct","benchDelta"]);
+      byId("benchNombreOut").textContent = String(byId("benchNombre").value || "").trim() || "Competencia";
+    }
+
+    function toggleCalculatedSections(show) {
+      const display = show ? "" : "none";
+      byId("step2Content").style.display = display;
+      byId("tablaModelos").style.display = display;
+      byId("mejorModeloLine").style.display = display;
+      byId("criterioSeleccion").style.display = display;
+      byId("mccInfo").style.display = display;
+    }
+
+    function clearCalculatedOutputs() {
+      setText(["pDebito","pCredito","qTotal","qDebito","qCredito","costoBase"]);
+      setText(["costoDebitoOut","costoCreditoOut","costoTotalOut"]);
+      setText(["ingresosComisionOut","costosComisionOut","margenOut","margenPctOut"]);
+      const tbody = document.querySelector("#tablaModelos tbody");
+      if (tbody) tbody.innerHTML = "";
+      byId("mejorModelo").textContent = "";
+      byId("mejorModelo").title = "";
+      byId("mejorModelo").className = "best";
+      byId("criterioSeleccion").textContent = "";
+      byId("mccInfo").textContent = "";
+      _bestIngresoTUU = 0;
+      _costoBaseActual = 0;
+      _hasCalculated = false;
+      toggleCalculatedSections(false);
+      clearBenchOutputs();
+    }
+
+    function updateTotalTx() {
+      const montoDeb = Number(byId("txDebito").value) || 0;
+      const montoCre = Number(byId("txCredito").value) || 0;
+      byId("totalTx").value = Math.round(montoDeb + montoCre);
+    }
+
+    function toggleInternalDetails() {
+      const details = byId("internalDetails");
+      const isHidden = details.style.display === "none";
+      details.style.display = isHidden ? "grid" : "none";
+      byId("toggleInternalDetails").textContent = isHidden ? "Ocultar detalle interno" : "Mostrar detalle interno";
+    }
+
     function recalc() {
       const ticket = Number(byId("ticketPromedio").value) || 0;
       const mccRaw = String(byId("mcc").value || "").trim();
@@ -398,20 +630,24 @@
       byId("qCredito").textContent = fmtMoney(qCre);
 
       // Costos base ajustados por MCC exacto desde tabla TI v2.
-      // Si MCC viene vacio, se intenta inferir por SII. Si MCC viene lleno y no existe, se usa fallback base y se avisa.
+      // Si MCC viene vacio, se intenta inferir por SII. Si no existe en tabla TI v2, no se calculan resultados.
       const inferredMcc = Number(SII_TO_MCC_MAP[String(sii)] || 0);
       const effectiveMcc = mccRaw !== "" ? mcc : inferredMcc;
       const mccKey = String(parseInt(effectiveMcc, 10) || "");
       const hasExactMcc = !!MCC_TI_MAP[mccKey];
-      const { debPct: costoDebPct, credPct: costoCredPct, source: mccSource } = resolveCostPercentages(effectiveMcc, ticket);
       const warnEl = byId("mccWarn");
-      if (mccRaw !== "" && !hasExactMcc) {
+      if (!hasExactMcc) {
         warnEl.style.display = "block";
-        warnEl.textContent = "MCC no encontrado en Tasa Intercambio v2. Se aplica fallback base.";
-      } else {
-        warnEl.style.display = "none";
-        warnEl.textContent = "";
+        warnEl.classList.remove("ok");
+        warnEl.textContent = "MCC no encontrado en Tasa Intercambio v2. Ingresa un MCC valido para calcular.";
+        clearCalculatedOutputs();
+        return;
       }
+      warnEl.style.display = "block";
+      warnEl.classList.add("ok");
+      warnEl.textContent = "MCC encontrado";
+      toggleCalculatedSections(true);
+      const { debPct: costoDebPct, credPct: costoCredPct, source: mccSource } = resolveCostPercentages(effectiveMcc, ticket);
       // Fórmulas equivalentes a Excel:
       // costo_debito_pct = PROMEDIO(Q5:Q6)/C3
       // costo_credito_pct = PROMEDIO(Q3:Q4)/C3
@@ -422,8 +658,8 @@
       const costoCred = avgQCred * qTotal * pCre;
       const costoBase = costoDeb + costoCred;
       byId("costoBase").textContent = `$${fmtMoney(costoBase)}`;
-      byId("costoDebitoOut").textContent = `${fmtPct(costoDebPct, 6)} ($${fmtMoney(costoDeb)})`;
-      byId("costoCreditoOut").textContent = `${fmtPct(costoCredPct, 6)} ($${fmtMoney(costoCred)})`;
+      byId("costoDebitoOut").textContent = `${fmtPct(costoDebPct)} ($${fmtMoney(costoDeb)})`;
+      byId("costoCreditoOut").textContent = `${fmtPct(costoCredPct)} ($${fmtMoney(costoCred)})`;
       byId("costoTotalOut").textContent = `$${fmtMoney(costoBase)}`;
 
       const tramo = tramosComisiones.find(t => totalMonto <= t.hasta) || tramosComisiones[tramosComisiones.length - 1];
@@ -437,7 +673,9 @@
       const tbody = document.querySelector("#tablaModelos tbody");
       tbody.innerHTML = "";
 
-      let best = null;
+      const MIN_MARGIN_CLP = 30000;
+      const MIN_MARGIN_PCT = 0.004;
+      let recommended = null;
       const rowsMeta = [];
       for (const m of modelos) {
         const ingresoDeb = (m.pDeb * montoDeb) + (m.fDeb * qDeb);
@@ -445,6 +683,7 @@
         const ingreso = ingresoDeb + ingresoCre;
         const margen = ingreso - costoBase;
         const margenPct = totalMonto > 0 ? margen / totalMonto : 0;
+        const isEligible = margen > MIN_MARGIN_CLP && margenPct > MIN_MARGIN_PCT;
 
         const tr = document.createElement("tr");
         tr.innerHTML = `
@@ -453,40 +692,138 @@
           <td>$${fmtMoney(m.fDeb)}</td>
           <td>${fmtPct(m.pCre)}</td>
           <td>$${fmtMoney(m.fCre)}</td>
-          <td>$${fmtMoney2(ingreso)}</td>
-          <td>$${fmtMoney2(margen)}</td>
+          <td>$${fmtMoney(ingreso)}</td>
+          <td>$${fmtMoney(margen)}</td>
           <td>${fmtPct(margenPct)}</td>
         `;
         tbody.appendChild(tr);
-        rowsMeta.push({ tr, modelo: m.nombre, margen });
+        rowsMeta.push({ tr, modelo: m.nombre, ingreso, margen, margenPct, isEligible });
 
-        if (!best || margen > best.margen) best = { nombre: m.nombre, margen, ingreso };
+        if (isEligible && (!recommended || ingreso < recommended.ingreso)) {
+          recommended = { nombre: m.nombre, margen, margenPct, ingreso };
+        }
       }
       for (const row of rowsMeta) {
-        if (best && row.modelo === best.nombre) {
+        if (recommended && row.modelo === recommended.nombre) {
           row.tr.classList.add("best-row");
           const firstCell = row.tr.querySelector("td");
           if (firstCell) firstCell.textContent = `⭐ ${row.modelo}`;
         }
       }
-      byId("mejorModelo").textContent = best ? `⭐ ${best.nombre} (margen: $${fmtMoney(best.margen)})` : "-";
+      const bestEl = byId("mejorModelo");
+      bestEl.className = "best";
+      if (recommended) {
+        bestEl.textContent = `⭐ ${recommended.nombre} (Lo que pagaría mensualmente el comercio: $${fmtMoney(recommended.ingreso)})`;
+      } else {
+        const hasAnyMonthlyMargin = rowsMeta.some(row => row.margen > MIN_MARGIN_CLP);
+        const hasAnyPctMargin = rowsMeta.some(row => row.margenPct > MIN_MARGIN_PCT);
+        const reasons = [];
+        if (!hasAnyMonthlyMargin) reasons.push("margen mensual mayor a $30.000");
+        if (!hasAnyPctMargin) reasons.push("margen mayor a 0,40%");
+        if (hasAnyMonthlyMargin && hasAnyPctMargin) {
+          reasons.push("un mismo modelo que cumpla simultáneamente margen mensual mayor a $30.000 y margen mayor a 0,40%");
+        }
+        bestEl.classList.add("no-recommendation");
+        bestEl.textContent = `Este cliente no es posible entregar margen debido a que no cumple con: ${reasons.join("; ")}. Contactar con su lider para evaluar caso.`;
+      }
 
-      const ingresoComision = best ? best.ingreso : 0;
+      byId("criterioSeleccion").textContent = "Criterio de selección: se consideran solo modelos con margen mensual mayor a $30.000 y margen mayor a 0,40%; entre esos, se recomienda el de menor ingreso mensual para el comercio.";
+
+      const ingresoComision = recommended ? recommended.ingreso : 0;
       const margenOut = ingresoComision - costoBase;
       const margenPctOut = totalMonto > 0 ? (margenOut / totalMonto) : 0;
       byId("ingresosComisionOut").textContent = `$${fmtMoney(ingresoComision)}`;
       byId("costosComisionOut").textContent = `$${fmtMoney(costoBase)}`;
       byId("margenOut").textContent = `$${fmtMoney(margenOut)}`;
       byId("margenPctOut").textContent = fmtPct(margenPctOut);
-      const mccMsg = `MCC aplicado: ${effectiveMcc || "-"} (${mccSource})`;
+      const mccMsg = `MCC aplicado: ${effectiveMcc || "-"}`;
       byId("mejorModelo").title = mccMsg;
       byId("mccInfo").textContent = mccMsg;
+
+      // Guardar mejor ingreso TUU para el benchmark
+      _bestIngresoTUU = recommended ? recommended.ingreso : 0;
+      _costoBaseActual = costoBase;
+      _hasCalculated = true;
+      recalcBench();
+    }
+
+    // --- Benchmark ---
+    function recalcBench() {
+      if (!_hasCalculated) {
+        clearBenchOutputs();
+        return;
+      }
+
+      const montoDeb   = Number(byId("txDebito").value) || 0;
+      const montoCre   = Number(byId("txCredito").value) || 0;
+      const ticket     = Number(byId("ticketPromedio").value) || 0;
+      const totalMonto = montoDeb + montoCre;
+      const qTotal     = ticket > 0 ? totalMonto / ticket : 0;
+      const pDeb       = totalMonto > 0 ? montoDeb / totalMonto : 0;
+      const pCre       = totalMonto > 0 ? montoCre / totalMonto : 0;
+
+      const benchNombre = String(byId("benchNombre").value || "").trim() || "Competencia";
+      byId("benchNombreOut").textContent = benchNombre;
+
+      const pDebRaw = parseFloat(byId("benchPDeb").value);
+      const fDebRaw = parseFloat(byId("benchFDeb").value);
+      const pCreRaw = parseFloat(byId("benchPCre").value);
+      const fCreRaw = parseFloat(byId("benchFCre").value);
+      const arriendoRaw = parseFloat(byId("benchArriendo").value);
+
+      const hasInputs = !isNaN(pDebRaw) || !isNaN(fDebRaw) || !isNaN(pCreRaw) || !isNaN(fCreRaw) || !isNaN(arriendoRaw);
+      if (!hasInputs) {
+        ["benchIngDeb","benchIngCre","benchIngTotal","benchMargen","benchMargenPct","benchDelta"].forEach(id => byId(id).textContent = "—");
+        return;
+      }
+
+      const pDebVal = isNaN(pDebRaw) ? 0 : pDebRaw / 100;
+      const fDebVal = isNaN(fDebRaw) ? 0 : fDebRaw;
+      const pCreVal = isNaN(pCreRaw) ? 0 : pCreRaw / 100;
+      const fCreVal = isNaN(fCreRaw) ? 0 : fCreRaw;
+      const arriendoVal = isNaN(arriendoRaw) ? 0 : arriendoRaw;
+
+      const ingDeb    = (pDebVal * montoDeb) + (fDebVal * qTotal * pDeb);
+      const ingCre    = (pCreVal * montoCre) + (fCreVal * qTotal * pCre);
+      const ingTotal  = ingDeb + ingCre + arriendoVal;
+      const margen    = ingTotal - _costoBaseActual;
+      const margenPct = totalMonto > 0 ? margen / totalMonto : 0;
+
+      byId("benchIngDeb").textContent   = "$" + fmtMoney(ingDeb);
+      byId("benchIngCre").textContent   = "$" + fmtMoney(ingCre);
+      byId("benchIngTotal").textContent = "$" + fmtMoney(ingTotal);
+      byId("benchMargen").textContent   = "$" + fmtMoney(margen);
+      byId("benchMargenPct").textContent = fmtPct(margenPct);
+
+      if (_bestIngresoTUU > 0) {
+        const delta = ingTotal - _bestIngresoTUU;
+        const sign  = delta >= 0 ? "+" : "";
+        const isTuuBetter = delta >= 0;
+        const label = isTuuBetter ? "más caro" : "más económico";
+        const statusClass = isTuuBetter ? "tuu-better" : "competition-better";
+        byId("benchDelta").innerHTML =
+          `<span class="delta-comparison"><span class="delta-amount">${sign}$${fmtMoney(Math.abs(delta))}</span> <span class="delta-status ${statusClass}">(${sign}${fmtPct(delta / _bestIngresoTUU)}) ${label} ${benchNombre} que <strong>TUU</strong></span></span>`;
+      } else {
+        byId("benchDelta").textContent = "—";
+      }
     }
 
     ["ticketPromedio", "sii", "mcc", "txDebito", "txCredito"]
-      .forEach(id => byId(id).addEventListener("input", recalc));
+      .forEach(id => byId(id).addEventListener("input", () => {
+        updateTotalTx();
+        byId("mccWarn").style.display = "none";
+        byId("mccWarn").classList.remove("ok");
+        byId("mccWarn").textContent = "";
+        clearCalculatedOutputs();
+      }));
 
-    recalc();
+    byId("calcularBtn").addEventListener("click", recalc);
+
+    ["benchPDeb","benchFDeb","benchPCre","benchFCre","benchArriendo","benchNombre"]
+      .forEach(id => byId(id).addEventListener("input", recalcBench));
+
+    updateTotalTx();
+    clearCalculatedOutputs();
   </script>
 </body>
 </html>
